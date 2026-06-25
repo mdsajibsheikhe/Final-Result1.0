@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>কুমিল্লা জেলা - চূড়ান্ত তালিকা অনুসন্ধান</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            padding: 2rem 1.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: #1e3c72;
+            margin-bottom: 0.3rem;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .search-box {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #2d4059;
+            font-size: 1rem;
+        }
+
+        input {
+            padding: 14px 18px;
+            border: 2px solid #dce1e8;
+            border-radius: 14px;
+            font-size: 1rem;
+            transition: 0.3s;
+            outline: none;
+            background: #f9fafc;
+        }
+
+        input:focus {
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+            background: white;
+        }
+
+        button {
+            background: #1e3c72;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background: #16315c;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 60, 114, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result-card {
+            background: #f0f4ff;
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: none;
+            animation: fadeInUp 0.5s ease-out;
+            border-left: 5px solid #1e3c72;
+            margin-bottom: 1.5rem;
+        }
+
+        .result-card.show {
+            display: block;
+        }
+
+        .result-card .info {
+            font-size: 1.1rem;
+            margin: 6px 0;
+            color: #2d4059;
+        }
+
+        .result-card .info span {
+            font-weight: 600;
+            color: #1e3c72;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            background: #e6f7e6;
+            color: #2e7d32;
+        }
+
+        .status-badge.waiting {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .not-found {
+            background: #fff5f5;
+            border-left: 5px solid #d32f2f;
+            color: #b71c1c;
+            padding: 1rem;
+            border-radius: 14px;
+            display: none;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        .not-found.show {
+            display: block;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            border-top: 1px solid #e0e6ed;
+            padding-top: 1.2rem;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: #1e3c72;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 6px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 8px 4px;
+            transition: 0.3s;
+        }
+
+        .whatsapp-btn:hover {
+            background: #1ebc57;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 কুমিল্লা জেলা</h1>
+            <p>শিল্পায়ন প্রশিক্ষণ প্রকল্প · চূড়ান্ত তালিকা অনুসন্ধান</p>
+        </div>
+
+        <div class="search-box">
+            <div class="input-group">
+                <label for="mobileInput">📱 মোবাইল নাম্বার দিন</label>
+                <input type="text" id="mobileInput" placeholder="উদা: 1714366621" inputmode="numeric">
+            </div>
+            <button onclick="searchRecord()">
+                🔍 অনুসন্ধান করুন
+            </button>
+        </div>
+
+        <div id="resultCard" class="result-card">
+            <p class="info">👤 <span>নাম:</span> <span id="resName"></span></p>
+            <p class="info">🎫 <span>রোল নং:</span> <span id="resRoll"></span></p>
+            <p><span id="resStatusBadge" class="status-badge"></span></p>
+        </div>
+
+        <div id="notFound" class="not-found">
+            ❌ এই নাম্বারটি পাওয়া যায়নি। দয়া করে আবার চেষ্টা করুন।
+        </div>
+
+        <div class="footer">
+            <p>📞 যোগাযোগ</p>
+            <a href="https://bd.linkedin.com/in/mdsajib-sheikh" target="_blank">LinkedIn: mdsajib-sheikh</a>
+            <br>
+            <a class="whatsapp-btn" href="https://wa.me/8801409630347" target="_blank">
+                💬 WhatsApp: 01409630347
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // সম্পূর্ণ ডেটাবেস (Merit + Waiting) 
+        const records = [
+            // ---- Merit list ----
+            { roll: "75600296", name: "Akash Roy Pranta", mobile: "1714366621", status: "Merit" },
+            { roll: "75600336", name: "Somia", mobile: "1343448974", status: "Merit" },
+            { roll: "75600569", name: "Faisal Mahmud", mobile: "1811307533", status: "Merit" },
+            { roll: "75600443", name: "SHAKIL HASAN", mobile: "1625531212", status: "Merit" },
+            { roll: "75600456", name: "NADIYA SULTANA", mobile: "1325160425", status: "Merit" },
+            { roll: "75600159", name: "MD. ANISUR RAHMAN", mobile: "1560008707", status: "Merit" },
+            { roll: "75600341", name: "Faysal Alam", mobile: "1576553548", status: "Merit" },
+            { roll: "75600352", name: "Amena Akter", mobile: "1636586460", status: "Merit" },
+            { roll: "75600374", name: "Abdullah Al Afif", mobile: "1690090399", status: "Merit" },
+            { roll: "75600398", name: "Nusrat Jahan", mobile: "1608288703", status: "Merit" },
+            { roll: "75600485", name: "Ashraful Alam Chowdhury", mobile: "1633377999", status: "Merit" },
+            { roll: "75600533", name: "Salma Akter", mobile: "1603454540", status: "Merit" },
+            { roll: "75600418", name: "Hasimul Alam Safwan", mobile: "1606594054", status: "Merit" },
+            { roll: "75600139", name: "Naymul Islam", mobile: "1869236241", status: "Merit" },
+            { roll: "75600413", name: "TARANNUM KHAN", mobile: "1805212287", status: "Merit" },
+            { roll: "75600142", name: "Mohammed Yeasin", mobile: "1968152601", status: "Merit" },
+            { roll: "75600337", name: "Md. Iftekhar Jahan", mobile: "1340928529", status: "Merit" },
+            { roll: "75600396", name: "MD. GOLAM ROBBANI RIYAD", mobile: "1538392115", status: "Merit" },
+            { roll: "75600345", name: "Sayima Akter", mobile: "1870407879", status: "Merit" },
+            { roll: "75600124", name: "Awolad Hossain Siam", mobile: "1646517468", status: "Merit" },
+            { roll: "75600452", name: "Urmy", mobile: "1973891675", status: "Merit" },
+            { roll: "75600314", name: "Sharmin Akter", mobile: "1324592144", status: "Merit" },
+            { roll: "75600489", name: "Asibul Islam Tamim", mobile: "1829577204", status: "Merit" },
+            { roll: "75600031", name: "SUHANA TABASSUM", mobile: "1625771312", status: "Merit" },
+            { roll: "75600327", name: "MD.Saidul Islam Mridha", mobile: "1814270498", status: "Merit" },
+            { roll: "75600422", name: "Sohel Rana", mobile: "1331021841", status: "Merit" },
+            { roll: "75600506", name: "Nahid Hasan Siam", mobile: "1617723447", status: "Merit" },
+            { roll: "75600292", name: "MIS SABIHA ZANNAT MAHI", mobile: "1799260255", status: "Merit" },
+            { roll: "75600293", name: "ISRAT JAHAN BHUIYAN RIYA", mobile: "1925514059", status: "Merit" },
+            { roll: "75600342", name: "Md. Rakib Hossain", mobile: "1890517648", status: "Merit" },
+            { roll: "75600484", name: "Rupali Akter", mobile: "1575807083", status: "Merit" },
+            { roll: "75600562", name: "Fatema Akter", mobile: "1347055290", status: "Merit" },
+            { roll: "75600360", name: "Md Arif Haider Bhuiyan", mobile: "1967892078", status: "Merit" },
+            { roll: "75600283", name: "Ayesa Akter", mobile: "1602003526", status: "Merit" },
+            { roll: "75600157", name: "Md. Kamrul Hasan", mobile: "1876441492", status: "Merit" },
+            { roll: "75600559", name: "Maria Sultana Monni", mobile: "1890719130", status: "Merit" },
+            { roll: "75600566", name: "Mohammad shadat Hossain", mobile: "1812778735", status: "Merit" },
+            { roll: "75600399", name: "ASMA FAHIM BENU", mobile: "1317671462", status: "Merit" },
+            { roll: "75600509", name: "Jinnat Uddin Jishan", mobile: "1888274206", status: "Merit" },
+            { roll: "75600359", name: "Rojina Akter Mim", mobile: "1703359580", status: "Merit" },
+            { roll: "75600455", name: "Mst. Mohsena Akter", mobile: "1518943888", status: "Merit" },
+            { roll: "75600280", name: "Md.Nayem uddin tanim", mobile: "1601180079", status: "Merit" },
+            { roll: "75600323", name: "Al amin", mobile: "1902628986", status: "Merit" },
+            { roll: "75600564", name: "khadeza akter nasrin", mobile: "1860109830", status: "Merit" },
+            { roll: "75600237", name: "Md Sohorab Ullah Sourav", mobile: "1609057372", status: "Merit" },
+            { roll: "75600490", name: "Md Arifur Rahaman", mobile: "1886100135", status: "Merit" },
+            { roll: "75600073", name: "Habiba Akter Noha", mobile: "1316735715", status: "Merit" },
+            { roll: "75600429", name: "SULTANA AKTER", mobile: "1901329992", status: "Merit" },
+            { roll: "75600483", name: "Md. Golam Rabbi", mobile: "1829775984", status: "Merit" },
+            { roll: "75600530", name: "OMAR FARUK RAJU", mobile: "1813864070", status: "Merit" },
+            { roll: "75600339", name: "Aysha Siddika Mysha", mobile: "1921454911", status: "Merit" },
+            { roll: "75600501", name: "HABIBA AKTER", mobile: "1606690081", status: "Merit" },
+            { roll: "75600041", name: "Md.Reazul Islam Rijon", mobile: "1841515824", status: "Merit" },
+            { roll: "75600066", name: "Umme Kulsum", mobile: "1521719716", status: "Merit" },
+            { roll: "75600131", name: "TAHOSIN KASHEM RIMEL", mobile: "1888338657", status: "Merit" },
+            { roll: "75600230", name: "Hafsa Jannat", mobile: "1897924025", status: "Merit" },
+            { roll: "75600470", name: "Tania Akter", mobile: "1821929471", status: "Merit" },
+            { roll: "75600548", name: "FARJANA AKTER MUNNI", mobile: "1882192709", status: "Merit" },
+            { roll: "75600150", name: "Mehedi Hasan Nasif", mobile: "1880906723", status: "Merit" },
+            { roll: "75600410", name: "Mahedi Siyam", mobile: "1758022996", status: "Merit" },
+            { roll: "75600532", name: "MD FARHAN ALAM JISHAN", mobile: "1815150380", status: "Merit" },
+            { roll: "75600108", name: "SAIDUL AHAD", mobile: "1864407886", status: "Merit" },
+            { roll: "75600234", name: "Sumaiya Akter", mobile: "1876157255", status: "Merit" },
+            { roll: "75600264", name: "Ankon Saha", mobile: "1872704511", status: "Merit" },
+            { roll: "75600060", name: "Iren sultana", mobile: "1815759904", status: "Merit" },
+            { roll: "75600266", name: "Shahrin Shaira Oishe", mobile: "1822195593", status: "Merit" },
+            { roll: "75600239", name: "Shaon", mobile: "1887641660", status: "Merit" },
+            { roll: "75600173", name: "arafat rahman", mobile: "1762239333", status: "Merit" },
+            { roll: "75600274", name: "MD RIFAT HOSSAIN", mobile: "1902358890", status: "Merit" },
+            { roll: "75600168", name: "Abdul Mukit", mobile: "1646533339", status: "Merit" },
+            { roll: "75600325", name: "Md.Atikur Rahman", mobile: "1703929978", status: "Merit" },
+            { roll: "75600008", name: "MD ABDULLAH", mobile: "1621539402", status: "Merit" },
+            { roll: "75600039", name: "AHKI MONY", mobile: "1874358888", status: "Merit" },
+            { roll: "75600377", name: "Ritu Rani Das", mobile: "1979427502", status: "Merit" },
+            { roll: "75600170", name: "MD IMTIAJ ALAM", mobile: "1400175353", status: "Merit" },
+            // ---- Waiting list ----
+            { roll: "75600479", name: "Aysha Ibnat", mobile: "1891462107", status: "Waiting" },
+            { roll: "75600310", name: "Kamrun Nahar", mobile: "1725410256", status: "Waiting" },
+            { roll: "75600512", name: "Md. Arifur Rahman Babu", mobile: "1554873490", status: "Waiting" },
+            { roll: "75600447", name: "MST: Sharmin Akter", mobile: "1627015734", status: "Waiting" },
+            { roll: "75600364", name: "PARHANA AKTER", mobile: "1755064927", status: "Waiting" },
+            { roll: "75600279", name: "Mostafizur Rahman", mobile: "1305286551", status: "Waiting" },
+            { roll: "75600120", name: "Shanjida Akter Liza", mobile: "1636570599", status: "Waiting" },
+            { roll: "75600448", name: "Hanufa Akter", mobile: "1893838508", status: "Waiting" },
+            { roll: "75600273", name: "RIZON", mobile: "1643005426", status: "Waiting" },
+            { roll: "75600419", name: "ISRAT JAHAN MILI", mobile: "1917240961", status: "Waiting" },
+            { roll: "75600043", name: "Tamanna", mobile: "1964420156", status: "Waiting" },
+            { roll: "75600110", name: "Saimun Hasan", mobile: "1781043401", status: "Waiting" },
+            { roll: "75600508", name: "Arfan Hossain Rafsan", mobile: "1876316771", status: "Waiting" },
+            { roll: "75600378", name: "Arpita Rani Shill", mobile: "1872893586", status: "Waiting" },
+            { roll: "75600412", name: "Most. Shamsun Nahar", mobile: "1866131891", status: "Waiting" },
+            { roll: "75600085", name: "Mansura Akter", mobile: "1850590711", status: "Waiting" },
+            { roll: "75600287", name: "SHOURAV CHANDRA BARMON", mobile: "1645962411", status: "Waiting" },
+            { roll: "75600192", name: "Afsana Nur Nowrin", mobile: "1568830600", status: "Waiting" },
+            { roll: "75600087", name: "Sahinur Akter", mobile: "1858026771", status: "Waiting" },
+            { roll: "75600492", name: "Tamanna Akter", mobile: "1946119671", status: "Waiting" },
+            { roll: "75600147", name: "Forhad Hossain", mobile: "1760167689", status: "Waiting" },
+            { roll: "75600389", name: "Ratri Rani Das", mobile: "1817634164", status: "Waiting" },
+            { roll: "75600465", name: "JAHIDUL ISLAM JIHAD", mobile: "1777803934", status: "Waiting" },
+            { roll: "75600463", name: "Md Shakib Hossen Bhuiyan", mobile: "1746058503", status: "Waiting" },
+            { roll: "75600089", name: "Mishu Das", mobile: "1331320900", status: "Waiting" }
+        ];
+
+        function searchRecord() {
+            const input = document.getElementById('mobileInput').value.trim();
+            const resultCard = document.getElementById('resultCard');
+            const notFound = document.getElementById('notFound');
+
+            // Hide previous results
+            resultCard.classList.remove('show');
+            notFound.classList.remove('show');
+
+            if (input === '') {
+                alert('দয়া করে মোবাইল নাম্বার লিখুন');
+                return;
+            }
+
+            // Find record by mobile (exact match, ignoring leading zeros etc.)
+            const found = records.find(rec => rec.mobile === input);
+
+            if (found) {
+                document.getElementById('resName').innerText = found.name;
+                document.getElementById('resRoll').innerText = found.roll;
+                const badge = document.getElementById('resStatusBadge');
+                badge.innerText = found.status === 'Merit' ? '✅ Merit' : '⏳ Waiting';
+                badge.className = 'status-badge' + (found.status === 'Waiting' ? ' waiting' : '');
+                resultCard.classList.add('show');
+            } else {
+                notFound.classList.add('show');
+            }
+        }
+
+        // Allow search on Enter key
+        document.getElementById('mobileInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchRecord();
+            }
+        });
+    </script>
+</body>
+</html>
